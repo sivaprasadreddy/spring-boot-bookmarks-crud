@@ -13,7 +13,7 @@ class TestcontainersConfiguration {
     @ServiceConnection
     PostgreSQLContainer<?> postgresContainer() {
         return new PostgreSQLContainer<>(
-                DockerImageName.parse("postgres:17")).withReuse(true);
+                DockerImageName.parse("postgres:17"));
     }
 
 }
