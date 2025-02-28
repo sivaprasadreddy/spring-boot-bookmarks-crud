@@ -24,9 +24,9 @@ class BookmarkController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Bookmark> getBookmarkById(@PathVariable Long id) {
+    ResponseEntity<Bookmark> getBookmarkById(@PathVariable String id) {
         var bookmark = bookmarkRepository
-                .findBookmarkById(id)
+                .findById(id)
                 .orElseThrow(() -> new BookmarkNotFoundException("Bookmark not found"));
         return ResponseEntity.ok(bookmark);
     }
@@ -54,7 +54,7 @@ class BookmarkController {
              String url) {}
 
     @PutMapping("/{id}")
-    ResponseEntity<Void> updateBookmark(@PathVariable Long id,
+    ResponseEntity<Void> updateBookmark(@PathVariable String id,
                                         @Valid @RequestBody UpdateBookmarkPayload payload) {
         var bookmark = bookmarkRepository.findById(id)
                         .orElseThrow(() -> new BookmarkNotFoundException("Bookmark not found"));
@@ -66,7 +66,7 @@ class BookmarkController {
     }
 
     @DeleteMapping("/{id}")
-    void deleteBookmark(@PathVariable Long id) {
+    void deleteBookmark(@PathVariable String id) {
         var bookmark = bookmarkRepository.findById(id)
                     .orElseThrow(() -> new BookmarkNotFoundException("Bookmark not found"));
         bookmarkRepository.delete(bookmark);

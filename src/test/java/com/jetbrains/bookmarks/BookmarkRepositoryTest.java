@@ -3,14 +3,14 @@ package com.jetbrains.bookmarks;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@DataMongoTest
 @Import(TestcontainersConfiguration.class)
 class BookmarkRepositoryTest {
     @Autowired
@@ -18,15 +18,15 @@ class BookmarkRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        bookmarkRepository.deleteAllInBatch();
+        bookmarkRepository.deleteAll();
     }
 
     @Test
     void shouldFindBookmarkById() {
         var bookmark = new Bookmark("JetBrains Blog", "https://blog.jetbrains.com");
-        Long bookmarkId = bookmarkRepository.save(bookmark).getId();
+        String bookmarkId = bookmarkRepository.save(bookmark).getId();
 
-        var bookmarkInfo = bookmarkRepository.findBookmarkById(bookmarkId).orElseThrow();
+        var bookmarkInfo = bookmarkRepository.findById(bookmarkId).orElseThrow();
         assertThat(bookmarkInfo.getTitle()).isEqualTo("JetBrains Blog");
         assertThat(bookmarkInfo.getUrl()).isEqualTo("https://blog.jetbrains.com");
     }

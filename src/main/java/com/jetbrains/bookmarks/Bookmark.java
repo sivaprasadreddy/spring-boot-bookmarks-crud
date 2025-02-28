@@ -1,30 +1,26 @@
 package com.jetbrains.bookmarks;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
-@Entity
-@Table(name = "bookmarks")
+@Document(collection = "bookmarks")
 public class Bookmark {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bookmarks_id_gen")
-    @SequenceGenerator(name = "bookmarks_id_gen", sequenceName = "bookmark_id_seq")
-    @Column(name = "id", nullable = false)
-    private Long id;
+    private String id;
 
-    @Column(name = "title", nullable = false, length = 200)
+    @NotBlank(message = "Title is required")
     private String title;
 
-    @Column(name = "url", nullable = false, length = 500)
+    @NotBlank(message = "URL is required")
     private String url;
 
-    @ColumnDefault("now()")
-    @Column(name = "created_at", nullable = false)
+    @NotNull
     private Instant createdAt;
 
-    @Column(name = "updated_at")
     private Instant updatedAt;
 
     public Bookmark() {}
@@ -35,11 +31,11 @@ public class Bookmark {
         this.createdAt = Instant.now();
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -24,7 +24,7 @@ class BookmarkControllerTest {
 
     @BeforeEach
     void setUp() {
-        bookmarkRepository.deleteAllInBatch();
+        bookmarkRepository.deleteAll();
     }
 
     @Test
@@ -42,7 +42,7 @@ class BookmarkControllerTest {
     @Test
     void shouldGetBookmarkById() {
         Bookmark jetBrainsBlog = new Bookmark("JetBrains Blog", "https://blog.jetbrains.com");
-        Long id = bookmarkRepository.save(jetBrainsBlog).getId();
+        String id = bookmarkRepository.save(jetBrainsBlog).getId();
 
         Bookmark bookmark = restTemplate.getForObject("/api/bookmarks/{id}", Bookmark.class, id);
 
@@ -72,7 +72,7 @@ class BookmarkControllerTest {
     @Test
     void shouldUpdateBookmark() {
         Bookmark initialBookmark = new Bookmark("JetBrains Blog", "https://blog.jetbrains.com");
-        Long id = bookmarkRepository.save(initialBookmark).getId();
+        String id = bookmarkRepository.save(initialBookmark).getId();
 
         var updatedBookmark = new BookmarkController.UpdateBookmarkPayload("Updated Title", "https://updated.url");
         restTemplate.put("/api/bookmarks/{id}", updatedBookmark, id);
@@ -86,7 +86,7 @@ class BookmarkControllerTest {
     @Test
     void shouldDeleteBookmarkById() {
         Bookmark demoBlog = new Bookmark("Demo Blog", "https://blog.demo.com");
-        Long id = bookmarkRepository.save(demoBlog).getId();
+        String id = bookmarkRepository.save(demoBlog).getId();
 
         restTemplate.delete("/api/bookmarks/{id}", id);
 

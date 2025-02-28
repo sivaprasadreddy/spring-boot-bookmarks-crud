@@ -1,12 +1,9 @@
 package com.jetbrains.bookmarks;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
+public interface BookmarkRepository extends CrudRepository<Bookmark, String> {
     List<Bookmark> findAllByOrderByCreatedAtDesc();
-
-    Optional<Bookmark> findBookmarkById(Long id);
 }
